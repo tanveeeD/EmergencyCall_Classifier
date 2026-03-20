@@ -50,6 +50,9 @@ https://www.kaggle.com/datasets/louisteitelbaum/911-recordings
 - Audio recordings are processed through speech-to-text transcription
 
 - Generated text is used for machine learning classification
+ 
+Due to size constraints, full dataset is not uploaded.
+Sample files are included.
 
 **Workflow :**
 1. Data Collection
