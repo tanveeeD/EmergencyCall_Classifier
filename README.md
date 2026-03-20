@@ -73,7 +73,8 @@ Sample files are included.
 
 5. Model Training
 
-- A Linear Support Vector Machine (SVM) classifier is trained to categorize emergency calls.
+- Multiple machine learning models will be experimented.
+- The best-performing model will be selected based on evaluation metrics
 
 6. Model Deployment
 
