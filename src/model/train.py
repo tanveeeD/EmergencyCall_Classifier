@@ -70,7 +70,7 @@ def train():
 
     training_args = TrainingArguments(
         output_dir="./results",
-        num_train_epochs=3,
+        num_train_epochs=2,
         per_device_train_batch_size=8,
         per_device_eval_batch_size=8,
         eval_strategy="epoch",

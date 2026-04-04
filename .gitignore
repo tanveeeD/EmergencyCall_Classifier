@@ -18,3 +18,18 @@ data/processed_audio/
 # OS
 .DS_Store
 Thumbs.db
+
+# Ignore models
+models/
+
+# Ignore data
+data/raw_audio/
+data/processed_audio/
+
+# Ignore outputs
+results/
+logs/
+
+# Python
+__pycache__/
+*.pyc

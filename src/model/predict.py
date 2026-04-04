@@ -25,7 +25,7 @@ def predict(text, tokenizer, model):
         return_tensors="pt",
         truncation=True,
         padding=True,
-        max_length=128
+        
     )
 
     with torch.no_grad():

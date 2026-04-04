@@ -11,7 +11,6 @@ from sklearn.model_selection import train_test_split
 DATA_PATH = "src/data_preprocessing/final_dataset.csv"
 MODEL_PATH = "models/distilbert_model"
 
-
 # Load Data
 def load_data(path):
     df = pd.read_csv(path)
