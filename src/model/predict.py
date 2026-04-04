@@ -1,4 +1,4 @@
-# 📌 Predict Script for Emergency Classification
+# Predict Script for Emergency Classification
 
 import torch
 from transformers import DistilBertTokenizer, DistilBertForSequenceClassification
@@ -10,7 +10,7 @@ MODEL_PATH = "models/distilbert_model"
 label_map = {0: "fire", 1: "police", 2: "medical"}
 
 
-# 🟢 Load model + tokenizer
+# Load model + tokenizer
 def load_model():
     tokenizer = DistilBertTokenizer.from_pretrained(MODEL_PATH)
     model = DistilBertForSequenceClassification.from_pretrained(MODEL_PATH)
@@ -18,7 +18,7 @@ def load_model():
     return tokenizer, model
 
 
-# 🟢 Predict function
+# Predict function
 def predict(text, tokenizer, model):
     inputs = tokenizer(
         text,
@@ -35,7 +35,7 @@ def predict(text, tokenizer, model):
     return label_map[pred]
 
 
-# 🟢 Main function
+# Main function
 def main():
     tokenizer, model = load_model()
 
