@@ -1,4 +1,4 @@
-# 📌 Evaluate DistilBERT Model
+# Evaluate DistilBERT Model
 
 import pandas as pd
 import torch
@@ -12,7 +12,7 @@ DATA_PATH = "data/final_dataset.csv"
 MODEL_PATH = "models/distilbert_model"
 
 
-# 🟢 Load Data
+# Load Data
 def load_data(path):
     df = pd.read_csv(path)
     df = df.dropna()
@@ -21,14 +21,14 @@ def load_data(path):
     return df
 
 
-# 🟢 Encode Labels
+# Encode Labels
 def encode_labels(df):
     label_map = {"fire": 0, "police": 1, "medical": 2}
     df["label"] = df["label"].map(label_map)
     return df
 
 
-# 🟢 Main Evaluation
+# Main Evaluation
 def evaluate():
 
     # Load and preprocess data
@@ -51,7 +51,7 @@ def evaluate():
 
     predictions = []
 
-    # 🔁 Predict
+    # Predict
     for text in test_texts:
         inputs = tokenizer(text, return_tensors="pt", truncation=True, padding=True, max_length=128)
 
@@ -61,12 +61,12 @@ def evaluate():
         pred = torch.argmax(outputs.logits, dim=1).item()
         predictions.append(pred)
 
-    # 📊 Metrics
+    # Metrics
     print("Accuracy:", accuracy_score(test_labels, predictions))
     print("\nClassification Report:\n")
     print(classification_report(test_labels, predictions))
 
 
-# 🟢 Run
+# Run
 if __name__ == "__main__":
     evaluate()
