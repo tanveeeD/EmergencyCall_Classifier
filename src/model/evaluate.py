@@ -8,7 +8,7 @@ from transformers import DistilBertTokenizer, DistilBertForSequenceClassificatio
 from sklearn.model_selection import train_test_split
 
 # Paths
-DATA_PATH = "data/final_dataset.csv"
+DATA_PATH = "src/data_preprocessing/final_dataset.csv"
 MODEL_PATH = "models/distilbert_model"
 
 

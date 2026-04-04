@@ -8,7 +8,7 @@ from transformers import (
     Trainer
 )
 
-DATA_PATH = "data/final_dataset.csv"
+DATA_PATH = "src/data_preprocessing/final_dataset.csv"
 MODEL_PATH = "models/distilbert_model"
 
 def load_data(path):
