@@ -55,10 +55,10 @@ def train():
     tokenizer = DistilBertTokenizer.from_pretrained("distilbert-base-uncased")
 
     train_encodings = tokenizer(
-        train_texts, truncation=True, padding=True, max_length=128
+        train_texts, truncation=True, padding=True
     )
     test_encodings = tokenizer(
-        test_texts, truncation=True, padding=True, max_length=128
+        test_texts, truncation=True, padding=True
     )
 
     train_dataset = EmergencyDataset(train_encodings, train_labels)
@@ -70,7 +70,7 @@ def train():
 
     training_args = TrainingArguments(
         output_dir="./results",
-        num_train_epochs=4,
+        num_train_epochs=3,
         per_device_train_batch_size=8,
         per_device_eval_batch_size=8,
         eval_strategy="epoch",
