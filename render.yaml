@@ -4,7 +4,7 @@ services:
     name: emergency-backend
     env: docker
     dockerfilePath: ./docker/Dockerfile
-    plan: starter # ML models will crash on free due to OOM
+    plan: free # Note: High risk of OOM crashing with PyTorch on Free tier
     envVars:
       - key: PORT
         value: 8000

@@ -8,8 +8,11 @@ RUN apt-get update && apt-get install -y ffmpeg
 
 RUN pip install --upgrade pip wheel "setuptools<70.0.0" gdown
 
-# FIXME: Replace YOUR_DRIVE_LINK with your Public Google Drive Folder Link, then uncomment the line below:
-RUN gdown --folder "https://drive.google.com/drive/folders/1meG2hvW5ED9slToZlQlEjfsthQDCoRlP?usp=drive_link" -O models/distilbert_model/
+# Fix Google Drive nested folder issue by searching and moving all downloaded files safely
+RUN gdown --folder "https://drive.google.com/drive/folders/1meG2hvW5ED9slToZlQlEjfsthQDCoRlP?usp=drive_link" -O gdrive_download && \
+    mkdir -p models/distilbert_model && \
+    find gdrive_download -type f -exec mv {} models/distilbert_model/ \;; \
+    rm -rf gdrive_download
 
 RUN pip install --default-timeout=1000 --no-build-isolation -r requirements.txt
 
