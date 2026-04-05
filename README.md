@@ -1,12 +1,10 @@
-**Emergency Call Audio Analysis & Priority Classification System**
-
-**Status:** 🚧 In Development
+**Emergency Call Classification System**
 
 **Project Overview :**
 
 Emergency response systems receive thousands of calls daily. Quickly identifying the type and severity of an emergency is critical for dispatching the right resources in time.
 
-This project builds an AI-powered emergency call classification system that analyzes 911 call recordings and automatically categorizes them into emergency types such as:
+This project processes emergency call audio or text and predicts the appropriate emergency category:
 
 - EMS (Medical Emergency)
 
@@ -15,8 +13,6 @@ This project builds an AI-powered emergency call classification system that anal
 - Traffic / Accident
 
 The system uses speech recognition and machine learning to convert audio recordings into text and classify the type of emergency.
-
-The project follows an MLOps workflow, integrating model training, deployment, containerization, and automation.
 
 **Objectives :**
 
@@ -28,7 +24,7 @@ The key objectives of this project are:
 
 - Train a machine learning classifier to identify emergency categories
 
-- Deploy the trained model as an API using FastAPI
+- Deploy the trained model using FastAPI and integrate it with a web-based user interface
 
 - Containerize the system using Docker
 
@@ -52,38 +48,42 @@ https://www.kaggle.com/datasets/louisteitelbaum/911-recordings
 - Generated text is used for machine learning classification
  
 Due to size constraints, full dataset is not uploaded.
-Sample files are included.
 
 **Workflow :**
 1. Data Collection
 
 - 911 emergency call recordings are downloaded from the Kaggle dataset.
 
-2. Speech-to-Text Conversion
+2. Audio Preprocessing
 
-- Audio files are transcribed into text using the Whisper speech recognition model.
-
-3. Data Processing
+- Audio recordings are cleaned and standardized (e.g., noise reduction, resampling, format normalization)
+- Ensures consistent input quality for speech recognition
+  
+3. Speech-to-Text Conversion
+- Preprocessed audio files are transcribed into text using the Whisper model
+  
+4. Data Processing
 
 - The extracted text is cleaned and prepared for machine learning.
 
-4. Feature Engineering
+5. Feature Representation
 
-- Text data is converted into numerical features using TF-IDF vectorization.
+- Text is tokenized and encoded for transformer-based learning
 
-5. Model Training
+6. Model Training
 
-- Multiple machine learning models will be experimented.
-- The best-performing model will be selected based on evaluation metrics
+- A DistilBERT-based classification model is trained
+- Performance is evaluated using standard metrics (accuracy, precision, recall, F1-score)
 
-6. Model Deployment
+7. Model Deployment
 
-- The trained model is exposed through a FastAPI-based prediction API.
+- The trained model is deployed using FastAPI
+- Integrated with a web-based interface for user interaction
 
-7. Containerization
+8. Containerization
 
-- The application is packaged using Docker to ensure consistent deployment.
+- The entire application is packaged using Docker for consistent environments
 
 8. CI/CD Automation
 
-- GitHub Actions automates testing and builds whenever new code is pushed to the repository.
+- GitHub Actions is used to automate build and deployment workflows
