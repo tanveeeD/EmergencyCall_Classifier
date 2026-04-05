@@ -1,0 +1,11 @@
+.venv
+venv
+__pycache__
+.git
+.github
+data/
+models/
+notebooks/
+results/
+README.md
+docker-compose.yml

@@ -1,0 +1,24 @@
+services:
+  # Backend FastAPI Service
+  - type: web
+    name: emergency-backend
+    env: docker
+    dockerfilePath: ./docker/Dockerfile
+    plan: starter # ML models will crash on free due to OOM
+    envVars:
+      - key: PORT
+        value: 8000
+    healthCheckPath: /docs
+
+  # Frontend Flask Service
+  - type: web
+    name: emergency-frontend
+    env: docker
+    dockerfilePath: ./frontend/Dockerfile
+    plan: free
+    envVars:
+      - key: BACKEND_URL
+        fromService:
+          type: web
+          name: emergency-backend
+          envVarKey: RENDER_EXTERNAL_URL

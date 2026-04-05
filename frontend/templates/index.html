@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emergency Call Classifier</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --panel-bg: rgba(30, 41, 59, 0.7);
+            --primary: #3b82f6;
+            --primary-hover: #2563eb;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --glass-border: rgba(255, 255, 255, 0.1);
+            
+            --fire-color: #ef4444;
+            --police-color: #3b82f6;
+            --medical-color: #10b981;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #020617, #0f172a, #172554);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Ambient background glow */
+        body::before {
+            content: '';
+            position: absolute;
+            top: -10%;
+            left: -10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, transparent 70%);
+            border-radius: 50%;
+            filter: blur(60px);
+            z-index: -1;
+            animation: floatGlow 10s ease-in-out infinite alternate;
+        }
+
+        @keyframes floatGlow {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50%, 50%); }
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            background: linear-gradient(to right, #60a5fa, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        p.subtitle {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        main {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            width: 100%;
+            max-width: 1000px;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .card {
+            background: var(--panel-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .card h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        textarea, input[type="file"] {
+            width: 100%;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            padding: 1rem;
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            resize: vertical;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+        }
+
+        input[type="file"]::file-selector-button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            margin-right: 1rem;
+        }
+
+        input[type="file"]::file-selector-button:hover {
+            background: var(--primary-hover);
+        }
+
+        button.submit-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.3s ease, transform 0.1s ease;
+        }
+
+        button.submit-btn:hover {
+            background: var(--primary-hover);
+        }
+
+        button.submit-btn:active {
+            transform: scale(0.98);
+        }
+
+        button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .result-box {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px dashed var(--glass-border);
+            display: none;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .result-box.active {
+            display: block;
+        }
+
+        .prediction-badge {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            border-radius: 99px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+        }
+
+        .badge-fire { background: rgba(239, 68, 68, 0.2); color: var(--fire-color); border: 1px solid var(--fire-color); }
+        .badge-police { background: rgba(59, 130, 246, 0.2); color: var(--police-color); border: 1px solid var(--police-color); }
+        .badge-medical { background: rgba(16, 185, 129, 0.2); color: var(--medical-color); border: 1px solid var(--medical-color); }
+
+        .spinner {
+            display: none;
+            width: 24px;
+            height: 24px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            main {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Emergency Dispatch AI</h1>
+        <p class="subtitle">Real-time classification for emergency calls</p>
+    </header>
+
+    <main>
+        <!-- Text Prediction -->
+        <div class="card">
+            <h2>📝 Text Analysis</h2>
+            <div class="form-group">
+                <label for="text-input">Enter operator notes or transcript:</label>
+                <textarea id="text-input" rows="5" placeholder="E.g., There is a huge fire spreading in the warehouse..."></textarea>
+            </div>
+            <button id="btn-text" class="submit-btn" onclick="predictText()">
+                <span class="btn-text">Analyze Text</span>
+                <div class="spinner"></div>
+            </button>
+            <div id="result-text" class="result-box">
+                <p><strong>Predicted Category:</strong></p>
+                <div id="badge-text" class="prediction-badge">...</div>
+            </div>
+        </div>
+
+        <!-- Audio Prediction -->
+        <div class="card">
+            <h2>🎙️ Audio Analysis</h2>
+            <div class="form-group">
+                <label for="audio-input">Upload a 911 audio recording (WAV/MP3):</label>
+                <input type="file" id="audio-input" accept="audio/*">
+            </div>
+            <button id="btn-audio" class="submit-btn" onclick="predictAudio()">
+                <span class="btn-text">Process Audio</span>
+                <div class="spinner"></div>
+            </button>
+            <div id="result-audio" class="result-box">
+                <p><strong>Transcript:</strong></p>
+                <p id="transcript-audio" style="font-style: italic; color: #cbd5e1; margin-bottom: 1rem; font-size: 0.9rem;">...</p>
+                <p><strong>Predicted Category:</strong></p>
+                <div id="badge-audio" class="prediction-badge">...</div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function updateBadge(elementId, prediction) {
+            const badge = document.getElementById(elementId);
+            badge.innerText = prediction.toUpperCase();
+            badge.className = 'prediction-badge'; // reset
+            
+            if (prediction.toLowerCase() === 'fire') badge.classList.add('badge-fire');
+            else if (prediction.toLowerCase() === 'police') badge.classList.add('badge-police');
+            else if (prediction.toLowerCase() === 'medical') badge.classList.add('badge-medical');
+            else badge.style.border = '1px solid white';
+        }
+
+        function toggleLoading(btnId, isLoading) {
+            const btn = document.getElementById(btnId);
+            const text = btn.querySelector('.btn-text');
+            const spinner = btn.querySelector('.spinner');
+            
+            btn.disabled = isLoading;
+            if (isLoading) {
+                text.style.display = 'none';
+                spinner.style.display = 'block';
+            } else {
+                text.style.display = 'block';
+                spinner.style.display = 'none';
+            }
+        }
+
+        async function predictText() {
+            const text = document.getElementById('text-input').value;
+            if (!text) {
+                alert("Please enter some text");
+                return;
+            }
+
+            toggleLoading('btn-text', true);
+            const resultBox = document.getElementById('result-text');
+            resultBox.classList.remove('active');
+
+            try {
+                const response = await fetch('/predict/text', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    updateBadge('badge-text', data.prediction);
+                    resultBox.classList.add('active');
+                } else {
+                    alert('Error: ' + (data.error || 'Unknown error'));
+                }
+            } catch (err) {
+                alert('Connection error');
+            } finally {
+                toggleLoading('btn-text', false);
+            }
+        }
+
+        async function predictAudio() {
+            const input = document.getElementById('audio-input');
+            if (input.files.length === 0) {
+                alert("Please select an audio file");
+                return;
+            }
+
+            const file = input.files[0];
+            const formData = new FormData();
+            formData.append('file', file);
+
+            toggleLoading('btn-audio', true);
+            const resultBox = document.getElementById('result-audio');
+            resultBox.classList.remove('active');
+            
+            try {
+                const response = await fetch('/predict/audio', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    document.getElementById('transcript-audio').innerText = `"${data.transcript}"`;
+                    updateBadge('badge-audio', data.prediction);
+                    resultBox.classList.add('active');
+                } else {
+                    alert('Error: ' + (data.error || 'Unknown error'));
+                }
+            } catch (err) {
+                alert('Connection error');
+            } finally {
+                toggleLoading('btn-audio', false);
+            }
+        }
+    </script>
+</body>
+</html>

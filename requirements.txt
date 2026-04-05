@@ -1,8 +1,11 @@
+--extra-index-url https://download.pytorch.org/whl/cpu
 fastapi
 uvicorn
 scikit-learn
 pandas
-numpy
+numpy<2
 joblib
-openai-whisper
-torch
+openai-whisper==20231117
+torch==2.2.1
+transformers==4.38.2
+python-multipart
