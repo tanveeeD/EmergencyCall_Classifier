@@ -32,6 +32,11 @@ jobs:
 
       - name: Trigger Render Deployment
         if: github.ref == 'refs/heads/main'
+        env:
+          RENDER_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK }}
         run: |
-          # FIXME: Add your Render Deploy Hook URL to GitHub repository secrets as RENDER_DEPLOY_HOOK
-          curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK }}"
+          if [ -z "$RENDER_HOOK" ]; then
+            echo "RENDER_DEPLOY_HOOK secret is empty! Add it in GitHub Settings to enable auto-deploy. Skipping."
+          else
+            curl -X POST "$RENDER_HOOK"
+          fi
