@@ -16,4 +16,4 @@ RUN gdown --folder "https://drive.google.com/drive/folders/1meG2hvW5ED9slToZlQlE
 
 RUN pip install --default-timeout=1000 --no-build-isolation -r requirements.txt
 
-CMD ["uvicorn","api.app:app","--host","0.0.0.0","--port","8000"]
+CMD ["uvicorn", "api.app:app", "--host", "0.0.0.0", "--port", "7860"]
