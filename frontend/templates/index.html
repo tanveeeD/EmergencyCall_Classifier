@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,14 +8,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #0f172a;
-            --panel-bg: rgba(30, 41, 59, 0.7);
-            --primary: #3b82f6;
-            --primary-hover: #2563eb;
+            --bg-color: #1e112a;
+            --panel-bg: rgba(43, 22, 54, 0.7);
+            --primary: #8b5cf6;
+            --primary-hover: #7c3aed;
             --text-main: #f8fafc;
-            --text-muted: #94a3b8;
+            --text-muted: #d8b4fe;
             --glass-border: rgba(255, 255, 255, 0.1);
-            
+
             --fire-color: #ef4444;
             --police-color: #3b82f6;
             --medical-color: #10b981;
@@ -28,7 +29,7 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #020617, #0f172a, #172554);
+            background: linear-gradient(135deg, #090014, #1e112a, #3b0764);
             color: var(--text-main);
             min-height: 100vh;
             display: flex;
@@ -48,7 +49,7 @@
             left: -10%;
             width: 400px;
             height: 400px;
-            background: radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.3) 0%, transparent 70%);
             border-radius: 50%;
             filter: blur(60px);
             z-index: -1;
@@ -56,8 +57,13 @@
         }
 
         @keyframes floatGlow {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(50%, 50%); }
+            0% {
+                transform: translate(0, 0);
+            }
+
+            100% {
+                transform: translate(50%, 50%);
+            }
         }
 
         header {
@@ -69,7 +75,7 @@
         h1 {
             font-size: 2.5rem;
             font-weight: 600;
-            background: linear-gradient(to right, #60a5fa, #a78bfa);
+            background: linear-gradient(to right, #c084fc, #e879f9);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 0.5rem;
@@ -124,7 +130,8 @@
             color: var(--text-muted);
         }
 
-        textarea, input[type="file"] {
+        textarea,
+        input[type="file"] {
             width: 100%;
             background: rgba(15, 23, 42, 0.6);
             border: 1px solid var(--glass-border);
@@ -139,7 +146,7 @@
         textarea:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+            box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.2);
         }
 
         input[type="file"]::file-selector-button {
@@ -208,15 +215,29 @@
             margin-top: 0.5rem;
         }
 
-        .badge-fire { background: rgba(239, 68, 68, 0.2); color: var(--fire-color); border: 1px solid var(--fire-color); }
-        .badge-police { background: rgba(59, 130, 246, 0.2); color: var(--police-color); border: 1px solid var(--police-color); }
-        .badge-medical { background: rgba(16, 185, 129, 0.2); color: var(--medical-color); border: 1px solid var(--medical-color); }
+        .badge-fire {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--fire-color);
+            border: 1px solid var(--fire-color);
+        }
+
+        .badge-police {
+            background: rgba(59, 130, 246, 0.2);
+            color: var(--police-color);
+            border: 1px solid var(--police-color);
+        }
+
+        .badge-medical {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--medical-color);
+            border: 1px solid var(--medical-color);
+        }
 
         .spinner {
             display: none;
             width: 24px;
             height: 24px;
-            border: 3px solid rgba(255,255,255,0.3);
+            border: 3px solid rgba(255, 255, 255, 0.3);
             border-radius: 50%;
             border-top-color: white;
             animation: spin 1s ease-in-out infinite;
@@ -224,22 +245,43 @@
         }
 
         @keyframes spin {
-            to { transform: rotate(360deg); }
+            to {
+                transform: rotate(360deg);
+            }
         }
 
         @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
 
         @media (max-width: 768px) {
@@ -249,11 +291,12 @@
         }
     </style>
 </head>
+
 <body>
 
     <header>
-        <h1>Emergency Dispatch AI</h1>
-        <p class="subtitle">Real-time classification for emergency calls</p>
+        <h1>Smart Emergency System</h1>
+        <p class="subtitle">ResQ>
     </header>
 
     <main>
@@ -262,7 +305,8 @@
             <h2>📝 Text Analysis</h2>
             <div class="form-group">
                 <label for="text-input">Enter operator notes or transcript:</label>
-                <textarea id="text-input" rows="5" placeholder="E.g., There is a huge fire spreading in the warehouse..."></textarea>
+                <textarea id="text-input" rows="5"
+                    placeholder="E.g., There is a huge fire spreading in the warehouse..."></textarea>
             </div>
             <button id="btn-text" class="submit-btn" onclick="predictText()">
                 <span class="btn-text">Analyze Text</span>
@@ -287,7 +331,9 @@
             </button>
             <div id="result-audio" class="result-box">
                 <p><strong>Transcript:</strong></p>
-                <p id="transcript-audio" style="font-style: italic; color: #cbd5e1; margin-bottom: 1rem; font-size: 0.9rem;">...</p>
+                <p id="transcript-audio"
+                    style="font-style: italic; color: #cbd5e1; margin-bottom: 1rem; font-size: 0.9rem; max-height: 120px; overflow-y: auto; padding-right: 8px; border-left: 2px solid rgba(255,255,255,0.1); padding-left: 10px;">
+                    ...</p>
                 <p><strong>Predicted Category:</strong></p>
                 <div id="badge-audio" class="prediction-badge">...</div>
             </div>
@@ -299,7 +345,7 @@
             const badge = document.getElementById(elementId);
             badge.innerText = prediction.toUpperCase();
             badge.className = 'prediction-badge'; // reset
-            
+
             if (prediction.toLowerCase() === 'fire') badge.classList.add('badge-fire');
             else if (prediction.toLowerCase() === 'police') badge.classList.add('badge-police');
             else if (prediction.toLowerCase() === 'medical') badge.classList.add('badge-medical');
@@ -310,7 +356,7 @@
             const btn = document.getElementById(btnId);
             const text = btn.querySelector('.btn-text');
             const spinner = btn.querySelector('.spinner');
-            
+
             btn.disabled = isLoading;
             if (isLoading) {
                 text.style.display = 'none';
@@ -338,9 +384,9 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ text })
                 });
-                
+
                 const data = await response.json();
-                
+
                 if (response.ok) {
                     updateBadge('badge-text', data.prediction);
                     resultBox.classList.add('active');
@@ -368,15 +414,15 @@
             toggleLoading('btn-audio', true);
             const resultBox = document.getElementById('result-audio');
             resultBox.classList.remove('active');
-            
+
             try {
                 const response = await fetch('/predict/audio', {
                     method: 'POST',
                     body: formData
                 });
-                
+
                 const data = await response.json();
-                
+
                 if (response.ok) {
                     document.getElementById('transcript-audio').innerText = `"${data.transcript}"`;
                     updateBadge('badge-audio', data.prediction);
@@ -392,4 +438,5 @@
         }
     </script>
 </body>
+
 </html>
