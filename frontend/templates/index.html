@@ -10,7 +10,8 @@
         :root {
             --bg-color: #f8fafc;
             --panel-bg: rgba(255, 255, 255, 0.75);
-            --primary: #a78bfa; /* pastel violet */
+            --primary: #a78bfa;
+            /* pastel violet */
             --primary-hover: #8b5cf6;
             --text-main: #1e293b;
             --text-muted: #64748b;
@@ -29,17 +30,17 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #fda085 0%, #f6d365 100%); /* Soft peach pastel */
+            background: linear-gradient(135deg, #fda085 0%, #f6d365 100%);
             background-attachment: fixed;
             color: var(--text-main);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
             padding: 2rem;
             position: relative;
-            overflow: hidden;
+            overflow-x: hidden;
         }
 
         /* Ambient background glow */
@@ -69,7 +70,8 @@
 
         header {
             text-align: center;
-            margin-bottom: 3rem;
+            margin-bottom: 2rem;
+            margin-top: 2rem;
             animation: fadeInDown 0.8s ease-out;
         }
 
@@ -88,13 +90,47 @@
             font-size: 1.1rem;
         }
 
+        /* Tabs Navigation */
+        .tabs-nav {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            animation: fadeInDown 0.8s ease-out;
+            background: rgba(255, 255, 255, 0.4);
+            padding: 0.5rem;
+            border-radius: 12px;
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--glass-border);
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn:hover {
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .tab-btn.active {
+            background: white;
+            color: var(--text-main);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
         main {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
             width: 100%;
-            max-width: 1000px;
+            max-width: 600px;
             animation: fadeInUp 0.8s ease-out;
+            position: relative;
         }
 
         .card {
@@ -104,13 +140,21 @@
             border-radius: 16px;
             padding: 2rem;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease, border-color 0.3s ease;
+            transition: transform 0.3s ease, border-color 0.3s ease, opacity 0.3s ease;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(10px);
         }
 
-        .card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(255, 255, 255, 0.8);
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        .card.active {
+            opacity: 1;
+            pointer-events: auto;
+            position: relative;
+            transform: translateY(0);
         }
 
         .card h2 {
@@ -137,7 +181,7 @@
         input[type="file"] {
             width: 100%;
             background: rgba(255, 255, 255, 0.6);
-            border: 1px solid rgba(0,0,0,0.1);
+            border: 1px solid rgba(0, 0, 0, 0.1);
             border-radius: 8px;
             padding: 1rem;
             color: var(--text-main);
@@ -179,6 +223,10 @@
             cursor: pointer;
             width: 100%;
             transition: background 0.3s ease, transform 0.1s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
         }
 
         button.submit-btn:hover {
@@ -192,6 +240,25 @@
         button:disabled {
             opacity: 0.7;
             cursor: not-allowed;
+        }
+
+        .btn-recording {
+            background: #ef4444 !important;
+            animation: pulse-red 1.5s infinite;
+        }
+
+        @keyframes pulse-red {
+            0% {
+                box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+            }
+
+            70% {
+                box-shadow: 0 0 0 10px rgba(239, 68, 68, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+            }
         }
 
         .result-box {
@@ -239,13 +306,21 @@
 
         .spinner {
             display: none;
-            width: 24px;
-            height: 24px;
+            width: 20px;
+            height: 20px;
             border: 3px solid rgba(255, 255, 255, 0.3);
             border-radius: 50%;
             border-top-color: white;
             animation: spin 1s ease-in-out infinite;
-            margin: 0 auto;
+        }
+
+        #recording-timer {
+            display: none;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #ef4444;
+            text-align: center;
+            margin-bottom: 1rem;
         }
 
         @keyframes spin {
@@ -287,25 +362,26 @@
                 opacity: 1;
             }
         }
-
-        @media (max-width: 768px) {
-            main {
-                grid-template-columns: 1fr;
-            }
-        }
     </style>
 </head>
 
 <body>
 
     <header>
-        <h1>ResQ
-            <p class="subtitle">Smart Emergency System
+        <h1>ResQ</h1>
+        <p class="subtitle">Smart Emergency System</p>
     </header>
 
+    <!-- Tab Navigation -->
+    <nav class="tabs-nav">
+        <button class="tab-btn active" onclick="switchTab('text-card', this)">📝 Text</button>
+        <button class="tab-btn" onclick="switchTab('mic-card', this)">🎙️ Live Mic</button>
+        <button class="tab-btn" onclick="switchTab('upload-card', this)">📁 Upload</button>
+    </nav>
+
     <main>
-        <!-- Text Prediction -->
-        <div class="card">
+        <!-- Text Prediction Card -->
+        <div id="text-card" class="card active">
             <h2>📝 Text Analysis</h2>
             <div class="form-group">
                 <label for="text-input">Enter operator notes or transcript:</label>
@@ -313,8 +389,8 @@
                     placeholder="E.g., There is a huge fire spreading in the warehouse..."></textarea>
             </div>
             <button id="btn-text" class="submit-btn" onclick="predictText()">
-                <span class="btn-text">Analyze Text</span>
                 <div class="spinner"></div>
+                <span class="btn-text">Analyze Text</span>
             </button>
             <div id="result-text" class="result-box">
                 <p><strong>Predicted Category:</strong></p>
@@ -322,29 +398,63 @@
             </div>
         </div>
 
-        <!-- Audio Prediction -->
-        <div class="card">
-            <h2>🎙️ Audio Analysis</h2>
+        <!-- Live Mic Prediction Card -->
+        <div id="mic-card" class="card">
+            <h2>🎙️ Live Mic Analysis</h2>
+            <p style="color: var(--text-muted); margin-bottom: 1.5rem; font-size: 0.9rem;">
+                Click start to record audio from your microphone. When you stop, it will be analyzed automatically.
+            </p>
+            <div id="recording-timer">00:00</div>
+            <button id="btn-mic" class="submit-btn" onclick="toggleRecording()">
+                <div class="spinner"></div>
+                <span class="btn-text" id="btn-mic-text">Start Recording</span>
+            </button>
+            <div id="result-mic" class="result-box">
+                <p><strong>Transcript:</strong></p>
+                <p id="transcript-mic"
+                    style="font-style: italic; color: #475569; margin-bottom: 1rem; font-size: 0.9rem; max-height: 120px; overflow-y: auto; padding-right: 8px; border-left: 2px solid rgba(0,0,0,0.1); padding-left: 10px;">
+                    ...</p>
+                <p><strong>Predicted Category:</strong></p>
+                <div id="badge-mic" class="prediction-badge">...</div>
+            </div>
+        </div>
+
+        <!-- Audio Upload Prediction Card -->
+        <div id="upload-card" class="card">
+            <h2>📁 Audio Upload</h2>
             <div class="form-group">
                 <label for="audio-input">Upload a 911 audio recording (WAV/MP3):</label>
                 <input type="file" id="audio-input" accept="audio/*">
             </div>
-            <button id="btn-audio" class="submit-btn" onclick="predictAudio()">
-                <span class="btn-text">Process Audio</span>
+            <button id="btn-upload" class="submit-btn" onclick="predictAudioFile()">
                 <div class="spinner"></div>
+                <span class="btn-text">Process Audio</span>
             </button>
-            <div id="result-audio" class="result-box">
+            <div id="result-upload" class="result-box">
                 <p><strong>Transcript:</strong></p>
-                <p id="transcript-audio"
+                <p id="transcript-upload"
                     style="font-style: italic; color: #475569; margin-bottom: 1rem; font-size: 0.9rem; max-height: 120px; overflow-y: auto; padding-right: 8px; border-left: 2px solid rgba(0,0,0,0.1); padding-left: 10px;">
                     ...</p>
                 <p><strong>Predicted Category:</strong></p>
-                <div id="badge-audio" class="prediction-badge">...</div>
+                <div id="badge-upload" class="prediction-badge">...</div>
             </div>
         </div>
     </main>
 
     <script>
+        // Tab Logic
+        function switchTab(cardId, btnElement) {
+            // Remove active from all tabs
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            // Remove active from all cards
+            document.querySelectorAll('.card').forEach(card => card.classList.remove('active'));
+
+            // Add active to clicked and target card
+            btnElement.classList.add('active');
+            document.getElementById(cardId).classList.add('active');
+        }
+
+        // Shared Presentation Logic
         function updateBadge(elementId, prediction) {
             const badge = document.getElementById(elementId);
             badge.innerText = prediction.toUpperCase();
@@ -356,21 +466,22 @@
             else badge.style.border = '1px solid white';
         }
 
-        function toggleLoading(btnId, isLoading) {
+        function toggleLoading(btnId, isLoading, defaultText = "Analyze") {
             const btn = document.getElementById(btnId);
             const text = btn.querySelector('.btn-text');
             const spinner = btn.querySelector('.spinner');
 
             btn.disabled = isLoading;
             if (isLoading) {
-                text.style.display = 'none';
+                text.innerText = "Analyzing...";
                 spinner.style.display = 'block';
             } else {
-                text.style.display = 'block';
+                text.innerText = defaultText;
                 spinner.style.display = 'none';
             }
         }
 
+        // --- Text Prediction ---
         async function predictText() {
             const text = document.getElementById('text-input').value;
             if (!text) {
@@ -378,7 +489,7 @@
                 return;
             }
 
-            toggleLoading('btn-text', true);
+            toggleLoading('btn-text', true, "Analyze Text");
             const resultBox = document.getElementById('result-text');
             resultBox.classList.remove('active');
 
@@ -400,11 +511,12 @@
             } catch (err) {
                 alert('Connection error');
             } finally {
-                toggleLoading('btn-text', false);
+                toggleLoading('btn-text', false, "Analyze Text");
             }
         }
 
-        async function predictAudio() {
+        // --- Upload Audio Prediction ---
+        async function predictAudioFile() {
             const input = document.getElementById('audio-input');
             if (input.files.length === 0) {
                 alert("Please select an audio file");
@@ -415,8 +527,8 @@
             const formData = new FormData();
             formData.append('file', file);
 
-            toggleLoading('btn-audio', true);
-            const resultBox = document.getElementById('result-audio');
+            toggleLoading('btn-upload', true, "Process Audio");
+            const resultBox = document.getElementById('result-upload');
             resultBox.classList.remove('active');
 
             try {
@@ -428,8 +540,8 @@
                 const data = await response.json();
 
                 if (response.ok) {
-                    document.getElementById('transcript-audio').innerText = `"${data.transcript}"`;
-                    updateBadge('badge-audio', data.prediction);
+                    document.getElementById('transcript-upload').innerText = `"${data.transcript}"`;
+                    updateBadge('badge-upload', data.prediction);
                     resultBox.classList.add('active');
                 } else {
                     alert('Error: ' + (data.error || 'Unknown error'));
@@ -437,7 +549,132 @@
             } catch (err) {
                 alert('Connection error');
             } finally {
-                toggleLoading('btn-audio', false);
+                toggleLoading('btn-upload', false, "Process Audio");
+            }
+        }
+
+
+        // --- Live Microphone Audio Prediction ---
+        let mediaRecorder;
+        let audioChunks = [];
+        let isRecording = false;
+        let recordingInterval;
+        let secondsRecorded = 0;
+
+        function updateTimer() {
+            const timerEl = document.getElementById('recording-timer');
+            const mins = Math.floor(secondsRecorded / 60);
+            const secs = secondsRecorded % 60;
+            timerEl.innerText = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        async function toggleRecording() {
+            if (!isRecording) {
+                startRecording();
+            } else {
+                stopRecording();
+            }
+        }
+
+        async function startRecording() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                mediaRecorder = new MediaRecorder(stream);
+                audioChunks = [];
+
+                mediaRecorder.addEventListener("dataavailable", event => {
+                    audioChunks.push(event.data);
+                });
+
+                mediaRecorder.addEventListener("stop", handleRecordingStop);
+
+                mediaRecorder.start();
+                isRecording = true;
+
+                // Update UI for recording state
+                const btn = document.getElementById('btn-mic');
+                const text = document.getElementById('btn-mic-text');
+                const timerEl = document.getElementById('recording-timer');
+
+                btn.classList.add('btn-recording');
+                text.innerText = "Stop Recording";
+                
+                secondsRecorded = 0;
+                updateTimer();
+                timerEl.style.display = 'block';
+                
+                recordingInterval = setInterval(() => {
+                    secondsRecorded++;
+                    updateTimer();
+                }, 1000);
+
+            } catch (err) {
+                console.error("Microphone access denied or error", err);
+                alert("Microphone access is needed for this feature. Please allow microphone access permissions.");
+            }
+        }
+
+        function stopRecording() {
+            if (mediaRecorder && mediaRecorder.state === "recording") {
+                mediaRecorder.stop();
+                isRecording = false;
+                
+                // Stop all audio tracks
+                mediaRecorder.stream.getTracks().forEach(track => track.stop());
+
+                clearInterval(recordingInterval);
+
+                // Update UI back from recording state
+                const btn = document.getElementById('btn-mic');
+                const text = document.getElementById('btn-mic-text');
+                const timerEl = document.getElementById('recording-timer');
+
+                btn.classList.remove('btn-recording');
+                timerEl.style.display = 'none';
+
+                // We don't change text to "Start Recording" immediately because we will show analyzing state
+            }
+        }
+
+        async function handleRecordingStop() {
+            // When stopped, create a single blob
+            const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+            // Send to server
+            await sendAudioBlobForAnalysis(audioBlob);
+            
+            // Reset button text after analysis
+            const text = document.getElementById('btn-mic-text');
+            text.innerText = "Start Recording";
+        }
+
+        async function sendAudioBlobForAnalysis(blob) {
+            const formData = new FormData();
+            // Provide a generic filename for the blob
+            formData.append('file', blob, 'recording.webm');
+
+            toggleLoading('btn-mic', true, "Start Recording"); // It will override text inside
+            const resultBox = document.getElementById('result-mic');
+            resultBox.classList.remove('active');
+
+            try {
+                const response = await fetch('/predict/audio', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    document.getElementById('transcript-mic').innerText = `"${data.transcript}"`;
+                    updateBadge('badge-mic', data.prediction);
+                    resultBox.classList.add('active');
+                } else {
+                    alert('Error: ' + (data.error || 'Unknown error'));
+                }
+            } catch (err) {
+                alert('Connection error');
+            } finally {
+                toggleLoading('btn-mic', false, "Start Recording");
             }
         }
     </script>
