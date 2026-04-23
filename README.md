@@ -77,16 +77,20 @@ Due to size constraints, full dataset is not uploaded.
 
 7. Model Deployment
 
-- The trained model is deployed using FastAPI
-- Integrated with a web-based interface for user interaction
+- The trained `DistilBERT` and `Whisper` models are served robustly using **FastAPI**.
+- The backend API is hosted on **Hugging Face Spaces** to bypass memory constraints, utilizing Git LFS to automatically pull and serve model weights.
+- The interactive frontend is built using **Flask**, vanilla HTML/CSS/JS, and deployed on **Render**.
 
-8. Containerization
+8. Interactive Web UI
 
-- The entire application is packaged using Docker for consistent environments
+- **Text Analysis**: Direct querying from dispatchers via text transcriptions.
+- **Record Voice (Live Mic)**: Integration with the native `MediaRecorder` Web API allowing users to record emergency audio straight from the browser.
+- **Audio Upload**: Ability to parse uploaded `.wav` or `.mp3` emergency recordings. 
 
-8. CI/CD Automation
+9. Containerization & CI/CD
 
-- GitHub Actions is used to automate build and deployment workflows
+- The application is packaged using Docker for consistent, scalable environments.
+- **GitHub Actions** automates code linting and dry-runs tests before integrating deployment webhooks (to automatically trigger Redeploys on Hugging Face and Render).
 
 **Website Link:**
 https://emergencycall-classifier-1.onrender.com
